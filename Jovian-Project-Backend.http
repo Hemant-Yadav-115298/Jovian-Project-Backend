@@ -1,0 +1,6 @@
+@Jovian_Project_Backend_HostAddress = http://localhost:5166
+
+GET {{Jovian_Project_Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
