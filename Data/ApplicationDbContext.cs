@@ -11,6 +11,8 @@ namespace Jovian_Project_Backend.Data
         public DbSet<Threat> Threat { get; set; }
         public DbSet<ThreatDiagram> ThreatDiagram { get; set; }
 
+        //hello this is just to check git
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 }
