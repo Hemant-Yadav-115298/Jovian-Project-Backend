@@ -1,11 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class ThreatDiagram
+namespace Jovian_Project_Backend.Models
 {
-    public Guid ID { get; set; }
-    public Guid InfoID { get; set; }
-    public string SequenceDiagram { get; set; }
-    public string FlowDiagram { get; set; }
+    public class ThreatDiagram
+    {
+        [Key]
+        public Guid ID { get; set; }
 
-    // Navigation property
-    public Info Info { get; set; }
+        [Required]
+        public Guid InfoID { get; set; }
+
+        public string? SequenceDiagram { get; set; }
+        public string? FlowDiagram { get; set; }
+
+        // Navigation property
+        [ForeignKey(nameof(InfoID))]
+        public required Info Info { get; set; }
+    }
 }
