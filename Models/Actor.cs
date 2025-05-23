@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jovian_Project_Backend.Models
 {
-
+    [Table("actor")]
 public class Actor
     {
         [Key]
