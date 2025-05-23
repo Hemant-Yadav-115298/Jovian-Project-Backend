@@ -1,3 +1,4 @@
+using System;
 using Jovian_Project_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,13 +12,22 @@ namespace Jovian_Project_Backend
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            var dbProvider = builder.Configuration["DatabaseProvider"];
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            if (dbProvider == "MSSQL")
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
+            }
+            else if (dbProvider == "MySQL")
+            {
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(builder.Configuration.GetConnectionString("MySQL"),
+                ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySQL"))));
+            }
 
+
+            builder.Services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
