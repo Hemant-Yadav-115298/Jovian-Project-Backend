@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jovian_Project_Backend.Models
 {
+    [Table("info_actor")]
     public class InfoActor
     {
         [Key]
@@ -17,7 +18,7 @@ namespace Jovian_Project_Backend.Models
         public bool? IsUpdated { get; set; }
         public DateTime? UpdatedOn { get; set; }
 
-        public string? Justification { get; set; }
+        public string? Comment { get; set; }
 
         // Navigation properties
         [ForeignKey(nameof(InfoID))]
