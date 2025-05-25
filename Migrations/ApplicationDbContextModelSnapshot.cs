@@ -132,6 +132,35 @@ namespace Jovian_Project_Backend.Migrations
                     b.ToTable("info_actor");
                 });
 
+            modelBuilder.Entity("Jovian_Project_Backend.Models.Login", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ActorID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ActorID");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Login");
+                });
+
             modelBuilder.Entity("Jovian_Project_Backend.Models.Threat", b =>
                 {
                     b.Property<Guid>("ID")
@@ -203,14 +232,14 @@ namespace Jovian_Project_Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("FlowDiagram")
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("FlowDiagram")
+                        .HasColumnType("longblob");
 
                     b.Property<Guid>("InfoID")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("SequenceDiagram")
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("SequenceDiagram")
+                        .HasColumnType("longblob");
 
                     b.HasKey("ID");
 
@@ -236,6 +265,16 @@ namespace Jovian_Project_Backend.Migrations
                     b.Navigation("Actor");
 
                     b.Navigation("Info");
+                });
+
+            modelBuilder.Entity("Jovian_Project_Backend.Models.Login", b =>
+                {
+                    b.HasOne("Jovian_Project_Backend.Models.Actor", "Actor")
+                        .WithMany()
+                        .HasForeignKey("ActorID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Actor");
                 });
 
             modelBuilder.Entity("Jovian_Project_Backend.Models.Threat", b =>

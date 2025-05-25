@@ -12,6 +12,14 @@ namespace Jovian_Project_Backend
 
             // Add services to the container.
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy => policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod());
+            });
+
             var dbProvider = builder.Configuration["DatabaseProvider"];
 
             if (dbProvider == "MSSQL")
@@ -42,8 +50,10 @@ namespace Jovian_Project_Backend
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthorization();
+            // Enable CORS
+            app.UseCors("AllowAll");
 
+            app.UseAuthorization();
 
             app.MapControllers();
 
