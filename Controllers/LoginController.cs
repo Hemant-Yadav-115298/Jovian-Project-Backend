@@ -26,8 +26,8 @@ namespace Jovian_Project_Backend.Controllers
             var user = _context.Login.FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
-                // Here you would typically generate a JWT token or session
-                return Ok(new { message = "Login successful", userId = user.Email });
+                // Return ActorID along with the success message
+                return Ok(new { message = "Login successful", actorId = user.ActorID });
             }
 
             return Unauthorized(new { message = "Invalid email or password" });
