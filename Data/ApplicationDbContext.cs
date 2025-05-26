@@ -11,6 +11,7 @@ namespace Jovian_Project_Backend.Data
         public DbSet<InfoActor> ActorsActor { get; set; }
         public DbSet<Threat> Threat { get; set; }
         public DbSet<ThreatDiagram> ThreatDiagram { get; set; }
+        public DbSet<Login> Login { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +34,28 @@ namespace Jovian_Project_Backend.Data
             .HasOne(td => td.Info)
             .WithMany(i => i.ThreatDiagrams)
             .HasForeignKey(td => td.InfoID);
+
+            modelBuilder.Entity<Login>(entity =>
+    {
+        entity.HasKey(l => l.ID);
+
+        entity.HasIndex(l => l.Email).IsUnique();
+
+        entity.Property(l => l.Email)
+              .IsRequired()
+              .HasMaxLength(200);
+
+        entity.Property(l => l.Password)
+              .IsRequired()
+              .HasMaxLength(255);
+
+        entity.HasOne(l => l.Actor)
+              .WithMany()
+              .HasForeignKey(l => l.ActorID)
+              .OnDelete(DeleteBehavior.Restrict);
+    });
+
+
         }
 
 

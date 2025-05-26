@@ -11,8 +11,8 @@ namespace Jovian_Project_Backend.Models
         [Required]
         public Guid InfoID { get; set; }
 
-        public string? SequenceDiagram { get; set; }
-        public string? FlowDiagram { get; set; }
+        public byte[]? SequenceDiagram { get; set; }
+        public byte[]? FlowDiagram { get; set; }
 
         // Navigation property
         [ForeignKey(nameof(InfoID))]

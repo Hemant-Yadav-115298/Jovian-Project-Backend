@@ -100,6 +100,50 @@ namespace Jovian_Project_Backend.Controllers
             return NoContent();
         }
 
+        // GET: api/Infoes/by-actor/{actorId}
+        [HttpGet("by-actor/{actorId}")]
+        public async Task<ActionResult<IEnumerable<InfoSummaryDto>>> GetInfosByActor(Guid actorId)
+        {
+            var infos = await _context.ActorsActor
+                .Where(ia => ia.ActorID == actorId)
+                .Select(ia => new InfoSummaryDto
+                {
+                    ID = ia.Info.ID,
+                    Name = ia.Info.Name,
+                    RepoName = ia.Info.RepoName,
+                    ScanDate = ia.Info.ScanDate,
+                    IsUpdated = ia.Info.IsUpdated,
+                    IsDeleted = ia.Info.IsDeleted,
+                    UpdatedOn = ia.Info.UpdatedOn,
+                    DeletedOn = ia.Info.DeletedOn,
+                    Status = ia.Info.Status
+                })
+                .ToListAsync();
+
+            return Ok(infos);
+        }
+
+        // GET: api/Infoes/threat-details/{infoId}
+        [HttpGet("threat-details/{infoId}")]
+        public async Task<ActionResult<InfoThreatDetailsDto>> GetThreatDetailsByInfoId(Guid infoId)
+        {
+            var info = await _context.Info.FindAsync(infoId);
+            if (info == null)
+                return NotFound();
+
+            var threats = await _context.Threat.Where(t => t.InfoID == infoId).ToListAsync();
+            var diagrams = await _context.ThreatDiagram.Where(d => d.InfoID == infoId).ToListAsync();
+
+            var result = new InfoThreatDetailsDto
+            {
+                Info = info,
+                Threats = threats,
+                ThreatDiagrams = diagrams
+            };
+
+            return Ok(result);
+        }
+
         private bool InfoExists(Guid id)
         {
             return _context.Info.Any(e => e.ID == id);
